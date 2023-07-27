@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 const commentsSchema =  new mongoose.Schema({
     name:{type:String},
     message:{type:String}
-})
+},{timestamps:true})
 
-const Comments = mongoose.model('Comments', commentsSchema)
+const Comment = mongoose.model('Comment', commentsSchema)
 
-module.exports = Comments
+module.exports = Comment

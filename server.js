@@ -3,7 +3,7 @@ const express = require('express');
 const app = require('./app-server')
 const PORT = process.env.PORT || 8000;
 const mongoose = require('mongoose');
-const path = require('path');
+const path = require('path'); 
 
 // Add MongoDB here after connecting database in .env
 const MONGODB_URI = process.env.MONGODB_URI

@@ -1,4 +1,5 @@
 const Blog = require('../models/blog')
+const Comment = require('../models/comments')
 
 exports.blogIndex = async (req,res)=>{
     try {
@@ -45,3 +46,41 @@ exports.showBlog = async (req,res)=>{
     }
 }
 
+exports.addComment = async (req,res)=>{
+    try {
+        const blog = Blog.findOne({_id:req.params.id})
+        const comment = new Comment(req.body)
+        blog.comments.addToSet({_id:comment._id}) // only need to add the id cuz the model takes care of the comment object
+        await comment.save()
+    } catch (error) {
+        
+    }
+}
+
+exports.updateAComment = async (req,res)=>{
+    try {
+        const foundComment = await Comment.findOneAndUpdate({'_id':req.params.id},req.body, {new:true})
+        res.json({message:'comment updated!', editedPost:foundComment})
+    } catch (error) {
+        res.status(400).json({error:error.message})
+        
+    }
+}
+exports.deleteAComment = async (req,res)=>{
+    try {
+        const findComment =  await Comment.findOneAndDelete({'_id':req.body.id})
+        res.json('comment deleted')
+    } catch (error) {
+        res.status(400).json({error:error.message})
+        
+    }
+}
+exports.showAComment = async (req,res)=>{
+    try {
+        const findComment = await Comment.findOne({'_id':req.params.id})
+        res.json(findComment)
+    } catch (error) {
+        res.status(400).json({error:error.message})
+        
+    }
+}
