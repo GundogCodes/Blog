@@ -1,11 +1,11 @@
 require('dotenv').config();
 const express = require('express');
-const app = express();
+const app = require('./app-server')
 const PORT = process.env.PORT || 8000;
 const mongoose = require('mongoose');
 const path = require('path');
 
-/* Add MongoDB here after connecting database in .env
+// Add MongoDB here after connecting database in .env
 const MONGODB_URI = process.env.MONGODB_URI
 const db = mongoose.connection;
 
@@ -13,7 +13,7 @@ mongoose.connect(MONGODB_URI);
 db.on('open', () => {
     console.log('Mongo is Connected');
 });
-*/
+
 
 /* Middleware */
 app.use(express.json());
@@ -31,11 +31,6 @@ app.get('/test', (req, res)=>{
 /* Controller Ends here */
 //LISTENER
 
-
-// for react router
-app.get('*', (req, res) => {
-	res.sendFile(path.resolve(path.join(__dirname, 'public', 'index.html')))
-})
 
 app.listen(PORT, () => {
     console.log(`API Listening on port ${PORT}`);
