@@ -32,6 +32,14 @@ app.get('/test', (req, res)=>{
 //LISTENER
 
 
+// for react router 
+// * star means anytime we ask for a while we didnt cover in our router file(backend one) its a catchall that if that
+// route is not in that file then we want react router to deal with it meaning its front end page
+
+app.get('*', (req, res) => {
+	res.sendFile(path.resolve(path.join(__dirname, 'public', 'index.html')))
+})
+
 app.listen(PORT, () => {
     console.log(`API Listening on port ${PORT}`);
 });
