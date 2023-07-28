@@ -48,11 +48,13 @@ exports.showBlog = async (req,res)=>{
 
 exports.addComment = async (req,res)=>{
     try {
-        const blog = Blog.findOne({_id:req.params.id})
-        const comment = new Comment(req.body)
+        const blog = await Blog.findOne({_id:req.params.id})
+        const comment = await new Comment(req.body)
         blog.comments.addToSet({_id:comment._id}) // only need to add the id cuz the model takes care of the comment object
         await comment.save()
+        res.json(blog)
     } catch (error) {
+        res.status(400).json({error:error.message})
         
     }
 }
@@ -68,8 +70,8 @@ exports.updateAComment = async (req,res)=>{
 }
 exports.deleteAComment = async (req,res)=>{
     try {
-        const findComment =  await Comment.findOneAndDelete({'_id':req.body.id})
-        res.json('comment deleted')
+       await Comment.findOneAndDelete({'_id':req.body.id})
+        res.json({message:'comment deleted'})
     } catch (error) {
         res.status(400).json({error:error.message})
         
